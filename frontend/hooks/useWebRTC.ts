@@ -25,7 +25,8 @@ export function useWebRTC(
   onParticipantLeft?: (id: number) => void,
   onMuteAllReceived?: () => void,
   onScreenShareStarted?: (id: number) => void,
-  onScreenShareStopped?: (id: number) => void
+  onScreenShareStopped?: (id: number) => void,
+  onTranscriptReceived?: (senderId: number, text: string) => void
 ) {
   const [remoteStreams, setRemoteStreams] = useState<Record<number, MediaStream>>({});
   const wsRef = useRef<WebSocket | null>(null);
@@ -46,9 +47,10 @@ export function useWebRTC(
       onParticipantLeft,
       onMuteAllReceived,
       onScreenShareStarted,
-      onScreenShareStopped
+      onScreenShareStopped,
+      onTranscriptReceived
     };
-  }, [onParticipantLeft, onMuteAllReceived, onScreenShareStarted, onScreenShareStopped]);
+  }, [onParticipantLeft, onMuteAllReceived, onScreenShareStarted, onScreenShareStopped, onTranscriptReceived]);
 
   // Helper to cleanly close a single peer connection
   const closePeerConnection = useCallback((peerId: number) => {
@@ -268,6 +270,12 @@ export function useWebRTC(
           case "screen_share_stopped":
             if (callbacks.onScreenShareStopped) {
                 callbacks.onScreenShareStopped(senderId);
+            }
+            break;
+
+          case "transcript_chunk":
+            if (callbacks.onTranscriptReceived) {
+                callbacks.onTranscriptReceived(senderId, message.text);
             }
             break;
         }

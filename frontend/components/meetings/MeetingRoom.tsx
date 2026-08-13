@@ -10,6 +10,7 @@ import MeetingControls from "./MeetingControls";
 import VideoGrid from "./VideoGrid";
 import ConnectionQualityIndicator from "./ConnectionQualityIndicator";
 import { useWebRTC } from "../../hooks/useWebRTC";
+import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
 import { Info, X, Copy } from "lucide-react";
 
 interface MeetingRoomProps {
@@ -52,6 +53,9 @@ export default function MeetingRoom({
   // Track who is sharing the screen (null = no one, number = participant ID)
   const [screenSharingPeerId, setScreenSharingPeerId] = useState<number | null>(null);
 
+  // Accumulate the real-time transcript
+  const [transcriptLines, setTranscriptLines] = useState<{name: string, text: string}[]>([]);
+
   // Construct the outgoing stream to send over WebRTC
   const outgoingStream = useMemo(() => {
     if (!localStream) return null;
@@ -89,6 +93,15 @@ export default function MeetingRoom({
     setScreenSharingPeerId(prev => prev === senderId ? null : prev);
   }, []);
 
+  const handleTranscriptReceived = useCallback((senderId: number, text: string) => {
+    setParticipants(currentParticipants => {
+      const sender = currentParticipants.find(p => p.id === senderId);
+      const name = sender ? sender.display_name : `Participant ${senderId}`;
+      setTranscriptLines(prev => [...prev, { name, text }]);
+      return currentParticipants;
+    });
+  }, []);
+
   const { remoteStreams, sendHostCommand, broadcastMessage, getPeerConnections } = useWebRTC(
     meetingCode,
     participantId,
@@ -96,8 +109,17 @@ export default function MeetingRoom({
     handleParticipantLeft,
     handleMuteAllReceived,
     handleScreenShareStarted,
-    handleScreenShareStopped
+    handleScreenShareStopped,
+    handleTranscriptReceived
   );
+
+  const handleLocalSpeech = useCallback((text: string) => {
+    const localName = sessionStorage.getItem("displayName") || "You";
+    setTranscriptLines(prev => [...prev, { name: localName, text }]);
+    broadcastMessage("transcript_chunk", { text });
+  }, [broadcastMessage]);
+
+  useSpeechRecognition(isMicOn, handleLocalSpeech);
 
   // Broadcast to peers when our screen sharing state changes
   useEffect(() => {
@@ -121,21 +143,19 @@ export default function MeetingRoom({
     
     try {
       if (participantId) {
-        // Send a simulated transcript so the AI has something to analyze!
+        // Send the real accumulated transcript
         try {
           const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api";
-          const mockTranscript = `Alice: Hi everyone, thanks for joining the meeting today.
-Bob: Hi Alice, glad to be here. What's on the agenda?
-Alice: We need to finalize the Q3 marketing budget and decide on the new logo color.
-Bob: I strongly suggest we use blue for the new logo, it looks more professional.
-Alice: Agreed. Let's make it blue. I'll take the action item to update the design by Friday.
-Bob: Sounds good. I'll review the budget numbers and send you an email tomorrow.
-Alice: Perfect, let's wrap up. Thanks!`;
+          
+          let finalTranscript = transcriptLines.map(line => `${line.name}: ${line.text}`).join("\n");
+          if (!finalTranscript.trim()) {
+            finalTranscript = "No speech detected in this meeting.";
+          }
           
           await fetch(`${API_BASE}/meetings/${meetingCode}/transcript`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ transcript: mockTranscript })
+            body: JSON.stringify({ transcript: finalTranscript })
           });
           
           // Trigger analysis automatically
