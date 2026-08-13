@@ -23,7 +23,7 @@ MeetFlow is a modern, full-stack video conferencing and meeting intelligence pla
 ### Backend
 - **Framework**: [FastAPI](https://fastapi.tiangolo.com/) (Python)
 - **Database**: SQLite with SQLAlchemy ORM
-- **AI Engine**: LangChain & Google Gemini API (`gemini-1.5-flash`)
+- **AI Engine**: LangChain & Google Gemini API (`gemini-3.6-flash`)
 - **Real-time Signaling**: FastAPI WebSockets
 
 ## 🚦 Getting Started
