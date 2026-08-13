@@ -39,7 +39,8 @@ export function useWebRTC(
     onParticipantLeft,
     onMuteAllReceived,
     onScreenShareStarted,
-    onScreenShareStopped
+    onScreenShareStopped,
+    onTranscriptReceived
   });
 
   useEffect(() => {
