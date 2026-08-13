@@ -25,7 +25,7 @@ export default function ActionItemCard({ item, onUpdate }: ActionItemCardProps) 
   const handleApprove = async () => {
     setIsUpdating(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/action-items/${item.id}/approve`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api"}/action-items/${item.id}/approve`, {
         method: "POST"
       });
       if (!res.ok) throw new Error("Failed to approve");
@@ -40,7 +40,7 @@ export default function ActionItemCard({ item, onUpdate }: ActionItemCardProps) 
   const handleDismiss = async () => {
     setIsUpdating(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/action-items/${item.id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api"}/action-items/${item.id}`, {
         method: "DELETE"
       });
       if (!res.ok) throw new Error("Failed to dismiss");

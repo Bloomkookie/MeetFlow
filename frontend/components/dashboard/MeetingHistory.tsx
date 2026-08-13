@@ -18,7 +18,7 @@ export default function MeetingHistory() {
     const fetchHistory = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:8000/api/meetings/history/search?query=${encodeURIComponent(query)}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api"}/meetings/history/search?query=${encodeURIComponent(query)}`);
         if (res.ok) {
           const data = await res.json();
           setHistory(data);
@@ -38,7 +38,7 @@ export default function MeetingHistory() {
   const handleClearInsights = async () => {
     if (!confirm("Are you sure you want to clear all insights history?")) return;
     try {
-      const res = await fetch("http://localhost:8000/api/zoomsense/history", { method: "DELETE" });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api"}` + "/zoomsense/history", { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to clear insights");
       toast.success("Insights cleared successfully");
       setRefreshKey(prev => prev + 1);

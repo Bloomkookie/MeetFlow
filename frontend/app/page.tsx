@@ -20,7 +20,7 @@ export default function Home() {
   const handleClearHistory = async () => {
     if (!confirm("Are you sure you want to clear your meeting history and insights?")) return;
     try {
-      const res = await fetch("http://localhost:8000/api/meetings/history", { method: "DELETE" });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api"}` + "/meetings/history", { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to clear history");
       toast.success("History cleared successfully");
       setRefreshKey(prev => prev + 1);

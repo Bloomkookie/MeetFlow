@@ -18,7 +18,7 @@ export default function MeetingInsightsPage() {
 
   const fetchInsights = async () => {
     try {
-      const res = await fetch(`http://localhost:8000/api/meetings/${meetingId}/insights`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api"}/meetings/${meetingId}/insights`);
       if (res.ok) {
         const data = await res.json();
         setInsights(data);
@@ -39,7 +39,7 @@ export default function MeetingInsightsPage() {
   const handleGenerateInsights = async () => {
     setAnalyzing(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/meetings/${meetingId}/analyze`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api"}/meetings/${meetingId}/analyze`, {
         method: "POST"
       });
       if (res.ok) {
