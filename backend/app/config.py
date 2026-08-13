@@ -16,6 +16,6 @@ class Settings:
     # ZoomSense AI configuration
     LLM_API_KEY: str = os.getenv("LLM_API_KEY", "")
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
-    LLM_MODEL: str = os.getenv("LLM_MODEL", "gemini-1.5-flash")
+    LLM_MODEL: str = os.getenv("LLM_MODEL", "gemini-3.6-flash")
 
 settings = Settings()

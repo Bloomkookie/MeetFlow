@@ -25,7 +25,7 @@ def analyze_meeting(state: MeetingAnalysisState) -> MeetingAnalysisState:
     try:
         # We use strict structured output from LangChain
         # Configure model from settings, or fallback
-        model_name = settings.LLM_MODEL or "gemini-1.5-flash"
+        model_name = settings.LLM_MODEL or "gemini-3.6-flash"
         api_key = settings.GEMINI_API_KEY
         
         # If no API key, we fail gracefully rather than crashing the app
