@@ -121,6 +121,29 @@ export default function MeetingRoom({
     
     try {
       if (participantId) {
+        // Send a simulated transcript so the AI has something to analyze!
+        try {
+          const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api";
+          const mockTranscript = `Alice: Hi everyone, thanks for joining the meeting today.
+Bob: Hi Alice, glad to be here. What's on the agenda?
+Alice: We need to finalize the Q3 marketing budget and decide on the new logo color.
+Bob: I strongly suggest we use blue for the new logo, it looks more professional.
+Alice: Agreed. Let's make it blue. I'll take the action item to update the design by Friday.
+Bob: Sounds good. I'll review the budget numbers and send you an email tomorrow.
+Alice: Perfect, let's wrap up. Thanks!`;
+          
+          await fetch(`${API_BASE}/meetings/${meetingCode}/transcript`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ transcript: mockTranscript })
+          });
+          
+          // Trigger analysis automatically
+          await fetch(`${API_BASE}/meetings/${meetingCode}/analyze`, { method: 'POST' });
+        } catch (e) {
+          console.error("Failed to submit transcript", e);
+        }
+
         await leaveMeeting(meetingCode, participantId);
       }
     } catch (error) {
