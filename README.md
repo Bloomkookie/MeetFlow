@@ -20,7 +20,7 @@ A modern full-stack video conferencing application inspired by Zoom, built with 
 <br />
 
 🔗 **[Live Demo](exemplary-encouragement-production-c500.up.railway.app)** &nbsp;&nbsp;•&nbsp;&nbsp;
-📂 **[GitHub Repository](YOUR_GITHUB_REPO_URL)**
+📂 **[GitHub Repository](https://github.com/Bloomkookie/MeetFlow)**
 
 </div>
 
