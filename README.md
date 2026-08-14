@@ -1,83 +1,65 @@
-# MeetFlow
+<div align="center">
 
-MeetFlow is a modern, full-stack video conferencing and meeting intelligence platform inspired by Zoom. It features real-time WebRTC communication, AI-driven meeting insights, and a sleek, professional UI built with Next.js and Tailwind CSS.
+# 🎥 ZoomSense
 
-## 🚀 Features
+### Real-Time Video Conferencing Platform with AI-Powered Meeting Intelligence
 
-- **High-Quality Video Meetings**: Real-time video and audio communication powered by WebRTC and WebSocket signaling.
-- **AI Meeting Intelligence**: Automatically generates meeting summaries, extracts key decisions, and creates action items from meeting transcripts using Google's Gemini AI.
-- **Professional UI/UX**: Clean, responsive design with full Dark Mode support, inspired by industry standards.
-- **Personal Meeting ID (PMI)**: Dedicated personal rooms for quick and easy meetups.
-- **Meeting History & Insights Management**: View past meetings and instantly clear insights and history to maintain privacy.
-- **Built-in Whiteboard**: A functional HTML5 canvas for collaborative drawing and note-taking during sessions.
+A modern full-stack video conferencing application inspired by Zoom, built with **Next.js, FastAPI, WebRTC, WebSockets, SQLite, and LangGraph**.
 
-## 🛠 Tech Stack
+<br />
 
-### Frontend
-- **Framework**: [Next.js](https://nextjs.org/) (React)
-- **Styling**: Tailwind CSS
-- **Icons**: Lucide React
-- **Theming**: next-themes (Light/Dark mode)
-- **State Management**: React Hooks & SessionStorage
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![WebRTC](https://img.shields.io/badge/WebRTC-Real--Time-333333?style=for-the-badge)
+![WebSocket](https://img.shields.io/badge/WebSocket-Real--Time-010101?style=for-the-badge)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![LangGraph](https://img.shields.io/badge/LangGraph-AI%20Workflow-1C3C3C?style=for-the-badge)
 
-### Backend
-- **Framework**: [FastAPI](https://fastapi.tiangolo.com/) (Python)
-- **Database**: SQLite with SQLAlchemy ORM
-- **AI Engine**: LangChain & Google Gemini API (`gemini-3.6-flash`)
-- **Real-time Signaling**: FastAPI WebSockets
+<br />
 
-## 🚦 Getting Started
+🔗 **[Live Demo](exemplary-encouragement-production-c500.up.railway.app)** &nbsp;&nbsp;•&nbsp;&nbsp;
+📂 **[GitHub Repository](YOUR_GITHUB_REPO_URL)**
 
-### Prerequisites
-- Node.js (v18+)
-- Python (3.10+)
-- Gemini API Key
+</div>
 
-### Backend Setup
+---
 
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-2. Create and activate a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   pip install langchain-google-genai
-   ```
-4. Configure environment variables. Create a `.env` file in the `backend` directory:
-   ```env
-   GEMINI_API_KEY=your_gemini_api_key_here
-   ```
-5. Seed the database and start the server:
-   ```bash
-   python app/seed.py
-   uvicorn app.main:app --reload
-   ```
-   The backend will be running at `http://localhost:8000`.
+# 🚀 Overview
 
-### Frontend Setup
+**ZoomSense** is a full-stack, real-time video conferencing platform inspired by modern meeting applications such as Zoom.
 
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-   The frontend will be running at `http://localhost:3000`.
+The application enables users to create instant meetings, join meetings using a Meeting ID or invite link, schedule future meetings, manage participants, and communicate using real-time audio and video.
 
-## 📸 Screenshots
-*(Add screenshots of your application here)*
+Beyond standard video conferencing, ZoomSense introduces **AI-powered Meeting Intelligence** that analyzes meeting transcripts to generate summaries, extract key decisions, identify action items, detect assignees and deadlines, and organize searchable meeting history.
 
-## 📄 License
-This project is licensed under the MIT License.
+The project demonstrates full-stack development, real-time communication, WebRTC signaling, database design, API development, and AI workflow orchestration.
+
+---
+
+# ✨ Features
+
+## 🎥 Real-Time Video Conferencing
+
+- 📹 Real camera access using WebRTC
+- 🎙️ Real microphone access
+- 🔇 Mute and unmute controls
+- 📷 Enable and disable camera
+- 👥 Multi-participant meeting support
+- 🔄 Real-time participant updates
+- 🔌 WebSocket-based signaling
+- 🖥️ Responsive video grid
+- 🚪 Leave meeting functionality
+
+```text
+User A                  FastAPI Signaling Server                  User B
+
+Camera ──┐                       │                                  ┌── Camera
+         │                       │                                  │
+         ▼                       ▼                                  ▼
+
+      WebRTC  ◄──────── WebSocket Signaling ────────►  WebRTC
+
+         │                                                   │
+         └──────────── Direct Media Connection ──────────────┘
